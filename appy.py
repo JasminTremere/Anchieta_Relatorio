@@ -364,50 +364,56 @@ df_total_limpo = pd.concat([df_ead_limpo, df_pres_semi_limpo, df_sup_ead_limpo, 
 # --- Barra Lateral (Filtros) ---
 st.sidebar.header("🔍 Filtros")
 
-# Filtrar por Categoria (Assunto)
+
+# Filtrar por Categoria 
 categorias_disponiveis = sorted(df_total_limpo['Categoria'].unique())
 categorias_selecionadas = st.sidebar.multiselect(
     "Filtrar por Categoria", categorias_disponiveis, default=categorias_disponiveis
 )
 
+# --- Prepara o DataFrame Temp após o filtro de Categoria ---
+df_temp_apos_categoria = df_total_limpo.copy()
+if categorias_selecionadas:
+    df_temp_apos_categoria = df_temp_apos_categoria[df_temp_apos_categoria['Categoria'].isin(categorias_selecionadas)]
+
 # Filtrar por Nome (opcional)
-nomes_disponiveis = sorted(df_total_limpo[df_total_limpo['Categoria'].isin(categorias_selecionadas)]['Nome'].unique())
+nomes_disponiveis = sorted(df_temp_apos_categoria['Nome'].unique())
 nomes_selecionados = st.sidebar.multiselect(
     "Filtrar por Nome (opcional)", nomes_disponiveis
 )
 
-# Filtrar por Telefone (opcional)
-df_temp_filtrado = df_total_limpo[df_total_limpo['Categoria'].isin(categorias_selecionadas)]
+# --- Prepara o DataFrame Temp após o filtro de Categoria E Nome ---
+df_temp_apos_nome = df_temp_apos_categoria.copy()
 if nomes_selecionados:
-    df_temp_filtrado = df_temp_filtrado[df_temp_filtrado['Nome'].isin(nomes_selecionados)]
+    df_temp_apos_nome = df_temp_apos_nome[df_temp_apos_nome['Nome'].isin(nomes_selecionados)]
 
-telefones_disponiveis = sorted(df_temp_filtrado['Telefone'].unique())
+# Filtrar por Telefone (opcional)
+telefones_disponiveis = sorted(df_temp_apos_nome['Telefone'].unique())
 telefones_selecionados = st.sidebar.multiselect(
     "Filtrar por Telefone (opcional)", telefones_disponiveis
 )
 
 
-# Aplicar filtros
+# Aplicar filtros (A ORDEM DE APLICAÇÃO É IMPORTANTE)
 df_filtrado_global = df_total_limpo.copy()
 
-# Aplica o filtro de Categoria
+# 1. Aplica o filtro de Categoria
 if categorias_selecionadas:
     df_filtrado_global = df_filtrado_global[df_filtrado_global['Categoria'].isin(categorias_selecionadas)]
 
-# Aplica o filtro de Nome
+# 2. Aplica o filtro de Nome
 if nomes_selecionados:
     df_filtrado_global = df_filtrado_global[df_filtrado_global['Nome'].isin(nomes_selecionados)]
 
-# Aplica o filtro de Telefone
+# 3. Aplica o filtro de Telefone
 if telefones_selecionados:
     df_filtrado_global = df_filtrado_global[df_filtrado_global['Telefone'].isin(telefones_selecionados)]
     
-# Separar novamente para gráficos específicos (mantido para compatibilidade com o resto do código)
+# Separar novamente para gráficos específicos (mantido para compatibilidade)
 df_ead_filtrado = df_filtrado_global[df_filtrado_global['Tipo'] == 'Outros EAD']
 df_pres_semi_filtrado = df_filtrado_global[df_filtrado_global['Tipo'] == 'Outros Presencial/Semi']
 df_sup_ead_filtrado = df_filtrado_global[df_filtrado_global['Tipo'] == 'Suporte EAD']
 df_sup_pres_semi_filtrado = df_filtrado_global[df_filtrado_global['Tipo'] == 'Suporte Presencial/Semi']
-
 
 # --- MÉTRICAS PRINCIPAIS ---
 st.subheader("Métricas Principais")
