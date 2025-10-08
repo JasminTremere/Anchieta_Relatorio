@@ -17,7 +17,7 @@ st.markdown("Análise de assuntos extraídos em CSV do Blip.")
 try: 
     # DataFrame EAD
     df_ead_raw = pd.read_csv(
-        'https://raw.githubusercontent.com/JasminTremere/alura_repositorio/main/dados_ead.csv', 
+        'https://raw.githubusercontent.com/JasminTremere/Anchieta_Relatorio/main/dados_ead.csv', 
         sep=';', 
         encoding='latin1', 
         header=None,
@@ -29,7 +29,7 @@ try:
     
     # DataFrame PRESENCIAL/SEMI
     df_pres_semi_raw = pd.read_csv(
-        'https://raw.githubusercontent.com/JasminTremere/alura_repositorio/main/dados_pres_semi.csv', 
+        'https://raw.githubusercontent.com/JasminTremere/Anchieta_Relatorio/main/dados_pres_semi.csv', 
         sep=';', 
         encoding='latin1', 
         header=None, 
@@ -41,7 +41,7 @@ try:
 
     # DataFrame SUPORTE EAD
     df_sup_ead_raw = pd.read_csv(
-        'https://raw.githubusercontent.com/JasminTremere/alura_repositorio/main/sup_ead.csv', 
+        'https://raw.githubusercontent.com/JasminTremere/Anchieta_Relatorio/main/sup_ead.csv', 
         sep=';', 
         encoding='latin1', 
         header=None, 
@@ -53,7 +53,7 @@ try:
 
     # DataFrame SUPORTE PRESENCIAL/SEMI
     df_sup_pres_semi_raw = pd.read_csv(
-        'https://raw.githubusercontent.com/JasminTremere/alura_repositorio/main/sup_pres_semi.csv', 
+        'https://raw.githubusercontent.com/JasminTremere/Anchieta_Relatorio/main/sup_pres_semi.csv', 
         sep=';', 
         encoding='latin1', 
         header=None, 
