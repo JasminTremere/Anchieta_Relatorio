@@ -3,11 +3,11 @@ import pandas as pd
 import plotly.express as px
 
 # -------------------------------
-#icon_url = "https://github.com/JasminTremere/Anchieta_Relatorio/blob/main/icone_header.png"
+icon_url = "https://github.com/JasminTremere/Anchieta_Relatorio/blob/main/icone_header.png"
 
 st.set_page_config(
     page_title="Dashboard de Análise Ancheita!", 
-    page_icon="📊"
+    page_icon=icon_url,
     layout="wide"
 )
 
@@ -364,40 +364,49 @@ df_total_limpo = pd.concat([df_ead_limpo, df_pres_semi_limpo, df_sup_ead_limpo, 
 # --- Barra Lateral (Filtros) ---
 st.sidebar.header("🔍 Filtros")
 
-# Filtro por Tipo de Atendimento/Curso
-tipos_disponiveis = sorted(df_total_limpo['Tipo'].unique())
-tipos_selecionados = st.sidebar.multiselect(
-    "Filtrar por Tipo de Atendimento", tipos_disponiveis, default=tipos_disponiveis
-)
-
-# Filtrar por Categoria
-categorias_disponiveis = sorted(df_total_limpo[df_total_limpo['Tipo'].isin(tipos_selecionados)]['Categoria'].unique())
+# Filtrar por Categoria (Assunto)
+categorias_disponiveis = sorted(df_total_limpo['Categoria'].unique())
 categorias_selecionadas = st.sidebar.multiselect(
     "Filtrar por Categoria", categorias_disponiveis, default=categorias_disponiveis
 )
 
 # Filtrar por Nome (opcional)
-nomes_disponiveis = sorted(df_total_limpo[df_total_limpo['Tipo'].isin(tipos_selecionados)]['Nome'].unique())
+nomes_disponiveis = sorted(df_total_limpo[df_total_limpo['Categoria'].isin(categorias_selecionadas)]['Nome'].unique())
 nomes_selecionados = st.sidebar.multiselect(
     "Filtrar por Nome (opcional)", nomes_disponiveis
+)
+
+# Filtrar por Telefone (opcional)
+df_temp_filtrado = df_total_limpo[df_total_limpo['Categoria'].isin(categorias_selecionadas)]
+if nomes_selecionados:
+    df_temp_filtrado = df_temp_filtrado[df_temp_filtrado['Nome'].isin(nomes_selecionados)]
+
+telefones_disponiveis = sorted(df_temp_filtrado['Telefone'].unique())
+telefones_selecionados = st.sidebar.multiselect(
+    "Filtrar por Telefone (opcional)", telefones_disponiveis
 )
 
 
 # Aplicar filtros
 df_filtrado_global = df_total_limpo.copy()
-if tipos_selecionados:
-    df_filtrado_global = df_filtrado_global[df_filtrado_global['Tipo'].isin(tipos_selecionados)]
+
+# Aplica o filtro de Categoria
 if categorias_selecionadas:
     df_filtrado_global = df_filtrado_global[df_filtrado_global['Categoria'].isin(categorias_selecionadas)]
+
+# Aplica o filtro de Nome
 if nomes_selecionados:
     df_filtrado_global = df_filtrado_global[df_filtrado_global['Nome'].isin(nomes_selecionados)]
+
+# Aplica o filtro de Telefone
+if telefones_selecionados:
+    df_filtrado_global = df_filtrado_global[df_filtrado_global['Telefone'].isin(telefones_selecionados)]
     
-# Separar novamente para gráficos específicos (se necessário)
+# Separar novamente para gráficos específicos (mantido para compatibilidade com o resto do código)
 df_ead_filtrado = df_filtrado_global[df_filtrado_global['Tipo'] == 'Outros EAD']
 df_pres_semi_filtrado = df_filtrado_global[df_filtrado_global['Tipo'] == 'Outros Presencial/Semi']
 df_sup_ead_filtrado = df_filtrado_global[df_filtrado_global['Tipo'] == 'Suporte EAD']
 df_sup_pres_semi_filtrado = df_filtrado_global[df_filtrado_global['Tipo'] == 'Suporte Presencial/Semi']
-
 
 
 # --- MÉTRICAS PRINCIPAIS ---
