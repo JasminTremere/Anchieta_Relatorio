@@ -3,9 +3,11 @@ import pandas as pd
 import plotly.express as px
 
 # -------------------------------
+icon_url = "https://github.com/JasminTremere/Anchieta_Relatorio/blob/main/icone_header.png"
+
 st.set_page_config(
     page_title="Dashboard de Análise Ancheita!", 
-    page_icon="icone_header.png",
+    page_icon=icon_url,
     layout="wide"
 )
 
