@@ -421,8 +421,7 @@ st.subheader("Métricas Principais")
 col1, col2, col3 = st.columns(3)
 col1.metric("Total de registros", df_filtrado_global.shape[0])
 col2.metric("Categorias", df_filtrado_global['Categoria'].nunique())
-col3.metric("Nomes únicos", df_filtrado_global['Nome'].nunique())
-#col4.metric("Total de assuntos", df_filtrado_global['Assuntos'].nunique())
+col3.metric("Telefones", df_filtrado_global['Telefone'].nunique()) 
 st.markdown("---")
 
 
