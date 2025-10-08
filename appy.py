@@ -5,7 +5,7 @@ import plotly.express as px
 # -------------------------------
 st.set_page_config(
     page_title="Dashboard de Análise Ancheita!", 
-    page_icon="📊",
+    page_icon="icone_header.png",
     layout="wide"
 )
 
