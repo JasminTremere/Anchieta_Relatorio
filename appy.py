@@ -367,8 +367,9 @@ st.sidebar.header("🔍 Filtros")
 
 # Filtrar por Categoria 
 categorias_disponiveis = sorted(df_total_limpo['Categoria'].unique())
+# CORREÇÃO AQUI: Mudando 'default=categorias_disponiveis' para 'default=[]'
 categorias_selecionadas = st.sidebar.multiselect(
-    "Filtrar por Categoria", categorias_disponiveis, default=categorias_disponiveis
+    "Filtrar por Categoria", categorias_disponiveis, default=[]
 )
 
 # --- Prepara o DataFrame Temp após o filtro de Categoria ---
@@ -414,6 +415,7 @@ df_ead_filtrado = df_filtrado_global[df_filtrado_global['Tipo'] == 'Outros EAD']
 df_pres_semi_filtrado = df_filtrado_global[df_filtrado_global['Tipo'] == 'Outros Presencial/Semi']
 df_sup_ead_filtrado = df_filtrado_global[df_filtrado_global['Tipo'] == 'Suporte EAD']
 df_sup_pres_semi_filtrado = df_filtrado_global[df_filtrado_global['Tipo'] == 'Suporte Presencial/Semi']
+
 
 # --- MÉTRICAS PRINCIPAIS ---
 st.subheader("Métricas Principais")
