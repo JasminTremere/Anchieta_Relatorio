@@ -6,7 +6,7 @@ import plotly.express as px
 #icon_url = "https://github.com/JasminTremere/Anchieta_Relatorio/blob/main/icone_header.png"
 
 st.set_page_config(
-    page_title="Dashboard de Análise Ancheita!", 
+    page_title="Dashboard de Análise Anchieta!", 
     page_icon="📊",
     layout="wide"
 )
